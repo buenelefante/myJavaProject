@@ -1,0 +1,2 @@
+# myJavaProject
+Kata pre-project
