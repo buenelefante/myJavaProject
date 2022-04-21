@@ -10,20 +10,21 @@ public class Util {
     private static  final String USERNAME = "root";
     private  static final String PASSWORD = "mySQL2022";
 
-    private Connection connection;
+    public static Connection getConnection() {
+        Connection connection;
 
-    public Connection getConnection(){
-        return connection;
-    }
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-    public Util() {
         try {
             connection = DriverManager.getConnection(URL,USERNAME, PASSWORD);
+            System.out.println("соединение...");
+            System.out.println("соединено "+  connection);
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        return connection;
     }
+
+
+
 
 }

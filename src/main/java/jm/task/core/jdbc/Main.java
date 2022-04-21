@@ -1,27 +1,23 @@
 package jm.task.core.jdbc;
 
+import jm.task.core.jdbc.service.UserServiceImpl;
 import jm.task.core.jdbc.util.Util;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Connection;
+
 
 public class Main {
     public static void main(String[] args) {
         // реализуйте алгоритм здесь
-        Util util = new Util();
-        String query = "select * from users";
 
-        try {
-            Statement statement = util.getConnection().createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            while (resultSet.next()) {
-                String name = resultSet.getString(2);
-                System.out.println(name);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        UserServiceImpl userService = new UserServiceImpl();
+        userService.createUsersTable();
+        userService.dropUsersTable();
+        userService.saveUser("Roma","Saenko", (byte)1);
+        userService.removeUserById(1);
+        userService.getAllUsers();
+        userService.cleanUsersTable();
 
+        Connection connection = Util.getConnection();
     }
 }
