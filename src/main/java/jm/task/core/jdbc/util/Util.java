@@ -15,9 +15,6 @@ public class Util {
 
         try {
             connection = DriverManager.getConnection(URL,USERNAME, PASSWORD);
-            System.out.println("соединение...");
-            System.out.println("соединено "+  connection);
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

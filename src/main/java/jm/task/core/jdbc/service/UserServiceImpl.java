@@ -5,10 +5,12 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
 
-
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -34,16 +36,19 @@ public class UserServiceImpl implements UserService {
     }
 
     public void saveUser(String name, String lastName, byte age) {
-        String sqlCommand = "INSERT INTO users (name,lastname, age) VALUES ('Nikola', 'Желткофф', 33)";
-        try{    Statement statement = Util.getConnection().createStatement();
-            statement.executeUpdate(sqlCommand);
-            System.out.printf("User " + name + " добавлен в базу данных");
+
+        try {
+            User user = new User();
+            PreparedStatement preparedStatement = Util.getConnection().prepareStatement("INSERT INTO users VALUES(?,?,?)");
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setByte(3, user.getAge());
+
+            preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
     public void removeUserById(long id) {
@@ -57,8 +62,24 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<User> getAllUsers() {
+        List<User> peoples = new ArrayList<>();
+        try {
+            Statement statement = Util.getConnection().createStatement();
+            String sqlCommand = "SELECT * FROM users";
+            ResultSet resultSet = statement.executeQuery(sqlCommand);
 
-        return null;
+            while (resultSet.next()) {
+                User user = new User();
+                user.setName(resultSet.getString("name"));
+                user.setLastName(resultSet.getString("lastname"));
+                user.setAge(resultSet.getByte("age"));
+
+                peoples.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return peoples;
     }
 
     public void cleanUsersTable() {
@@ -70,5 +91,6 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
     }
-    UserDaoJDBCImpl dao = new UserDaoJDBCImpl();
+
+
 }

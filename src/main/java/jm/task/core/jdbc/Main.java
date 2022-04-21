@@ -13,11 +13,14 @@ public class Main {
         UserServiceImpl userService = new UserServiceImpl();
         userService.createUsersTable();
         userService.dropUsersTable();
-        userService.saveUser("Roma","Saenko", (byte)1);
-        userService.removeUserById(1);
+        userService.saveUser("Roma","Zybov", (byte) 21);
+        userService.saveUser("Chack","Kolchak", (byte)39);
+        userService.saveUser("Egor","Player", (byte)32);
+        userService.saveUser("Goga","Magoga", (byte)11);
+        userService.removeUserById(2);
         userService.getAllUsers();
         userService.cleanUsersTable();
 
-        Connection connection = Util.getConnection();
+
     }
 }
