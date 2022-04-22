@@ -38,11 +38,11 @@ public class UserServiceImpl implements UserService {
     public void saveUser(String name, String lastName, byte age) {
 
         try {
+            PreparedStatement preparedStatement = Util.getConnection().prepareStatement("INSERT INTO users(name, lastname, age) VALUES(?,?,?)");
 
-            PreparedStatement preparedStatement = Util.getConnection().prepareStatement("INSERT INTO users VALUES(1,?,?,?)");
-            preparedStatement.setString(1, "Iosif");
-            preparedStatement.setString(2, "Rudy");
-            preparedStatement.setByte(3, (byte)28);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
 
             preparedStatement.executeUpdate();
 
