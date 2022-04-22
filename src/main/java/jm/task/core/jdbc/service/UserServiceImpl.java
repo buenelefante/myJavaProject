@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
             preparedStatement.setByte(3, age);
 
             preparedStatement.executeUpdate();
+            System.out.println("User с именем " + name + " добавлен в базу данных" );
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public void removeUserById(long id) {
-        String sqlCommand = "DELETE FROM users WHERE id=2";
+        String sqlCommand = "DELETE FROM users WHERE id=1";
         try {
             Statement statement = Util.getConnection().createStatement();
             statement.executeUpdate(sqlCommand);
@@ -75,11 +76,13 @@ public class UserServiceImpl implements UserService {
                 user.setAge(resultSet.getByte("age"));
 
                 peoples.add(user);
+                System.out.println(user);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return peoples;
+
     }
 
     public void cleanUsersTable() {
